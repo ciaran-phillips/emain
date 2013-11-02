@@ -19,7 +19,7 @@
 			}).addTo(map);
 			
 			$.ajax({
-				url: "http://127.0.0.1:8000/map_data/"
+				url: "/map_data/"
 				})
 				.done(function( data ) {
 					var users = data.users
