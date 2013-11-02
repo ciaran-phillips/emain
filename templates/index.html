@@ -6,8 +6,9 @@
 		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
 	 <![endif]-->
 	 
-	
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script> 
 	 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 	
 	<script>
@@ -24,14 +25,22 @@
 				.done(function( data ) {
 					var users = data.users
 					var len = users.length;
+					var user_list = "";
 					for (var i = 0; i < len; i++) {
 						var len_user_locs = users[i].locations.length;
 						for (var c = 0; c < len_user_locs; c++) {
 							var lat = users[i].locations[c].lat;
 							var lon = users[i].locations[c].lon;
 							var marker = L.marker([lat, lon]).addTo(map);
+							var popup_text = "Searcher: " + users[i].first_name + " " + users[i].last_name;
+							popup_text += "<br /> Time: " + users[i].locations[c].time;
+							marker.bindPopup(popup_text);
 						}
+						 user_list += "<li data-user='"+i+"'>";
+						 user_list += users[i].first_name + " " + users[i].last_name + "</li>";
+						
 					}
+					$("#user_list").html(user_list);
 				});
 			});
 	</script>
@@ -42,8 +51,30 @@
 	</head>
 
 	<body>
-		 <div id="map"></div>
+		<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<h1>Active Searchers</h1>
+				<ul id="user_list">
+					
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<div class="row">
+				<h1>E-MAIN</h1>
+				<div id="map">
+				
+				</div>
+		 
+		 </div>
+			</div>
+			
+			
+		</div>	
 		
+		
+ 
+		</div>
 	</body>
 </html>
 

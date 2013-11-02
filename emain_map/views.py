@@ -38,8 +38,10 @@ def map_data(request):
 			user_loc = {}
 			user_loc['lat'] = loc.lat
 			user_loc['lon'] = loc.lon
-			user_loc['time'] = calendar.timegm(loc.when.utctimetuple())
+			t = loc.when.strftime("%H:%M:%S")
+			user_loc['time'] = t
 			user_dict['locations'].append(user_loc)
+			
 		response_data['users'].append(user_dict)
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
