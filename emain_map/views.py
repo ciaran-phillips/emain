@@ -49,8 +49,15 @@ def update_from_app(request):
         print form.errors
         return HttpResponseBadRequest()
     else:
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            if form.cleaned_data['userid'] is None:
+                return HttpResponseBadRequest()
+            user = User.objects.get(id=form.cleaned_data['userid'])
+
         location = form.save(commit=False)
-        location.user = request.user
+        location.user = user
         location.save()
         # everything ok
         return HttpResponse(status=200)
