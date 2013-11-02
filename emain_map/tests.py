@@ -28,6 +28,9 @@ class RegisterTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(User.objects.all().count(), 1)
 
+        userid = int(resp.content)
+        self.assertTrue(User.objects.filter(id=userid).exists())
+
 class UpdateFromAppTestCase(TestCase):
     def setUp(self):
         Location.objects.all().delete()

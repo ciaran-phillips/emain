@@ -65,4 +65,4 @@ def register(request):
     user.save()
     user = authenticate(username=un, password=pw)
     login(request, user)
-    return HttpResponse(status=200)
+    return HttpResponse(content=str(user.id), status=200)
