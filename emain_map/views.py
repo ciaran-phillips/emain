@@ -56,3 +56,13 @@ def update_from_app(request):
         return HttpResponse(status=200)
 
 # TODO display current status on the map
+
+def register(request):
+    # TODO proper form
+    un = request.POST['username']
+    pw = request.POST['password']
+    user = User.objects.create_user(username=un, password=pw)
+    user.save()
+    user = authenticate(username=un, password=pw)
+    login(request, user)
+    return HttpResponse(status=200)
