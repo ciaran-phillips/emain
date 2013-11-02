@@ -24,20 +24,23 @@ def index(request):
 def map_data(request):
 	# Dummy value for now
 	current_project = 1
-	response_data = []
+	response_data = {}
+	response_data['users'] = []
 	users = User.objects.filter(participating_in=current_project)
 
 	for u in users:
 		user_dict = {}
 		user_dict['first_name'] = u.first_name
 		user_dict['last_name'] = u.last_name
-		user_dict['locations'] = {}
+		user_dict['locations'] = []
 		user_locations = u.location_set.all()
 		for loc in user_locations:
-			user_dict['locations']['lat'] = loc.lat
-			user_dict['locations']['lon'] = loc.lon
-			user_dict['locations']['time'] = calendar.timegm(loc.when.utctimetuple())
-		response_data.append(user_dict)
+			user_loc = {}
+			user_loc['lat'] = loc.lat
+			user_loc['lon'] = loc.lon
+			user_loc['time'] = calendar.timegm(loc.when.utctimetuple())
+			user_dict['locations'].append(user_loc)
+		response_data['users'].append(user_dict)
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 # TODO add POST for ping from the app
