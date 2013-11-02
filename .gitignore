@@ -40,3 +40,6 @@ nosetests.xml
 
 # rope stuff
 .ropeproject
+
+# don't complain about the settings
+settings.py
