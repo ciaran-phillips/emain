@@ -40,11 +40,9 @@ def map_data(request):
 		response_data['users'].append(user_dict)
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-# TODO add POST for ping from the app
+
 def update_from_app(request):
-    if request.method == 'GET':
-        return HttpResponseBadRequest()
-    form = LocationForm(request.POST)
+    form = LocationForm(request.POST or request.GET or {})
     if not form.is_valid():
         print form.errors
         return HttpResponseBadRequest()
@@ -53,6 +51,7 @@ def update_from_app(request):
             user = request.user
         else:
             if form.cleaned_data['userid'] is None:
+                userid = forms.IntegerField(required=False)
                 return HttpResponseBadRequest()
             user = User.objects.get(id=form.cleaned_data['userid'])
 
