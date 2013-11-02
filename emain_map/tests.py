@@ -27,6 +27,9 @@ class UpdateFromAppTestCase(TestCase):
         self.client.login(username="test@example.com", password="password")
 
     def testSimple(self):
+        """
+        Simple post to ajax
+        """
         self.assertEqual(Location.objects.all().count(), 0)  # none at start
         resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34146, 'lon':-6.26876})
         self.assertEqual(resp.status_code, 200)
@@ -38,6 +41,9 @@ class UpdateFromAppTestCase(TestCase):
         self.assertEqual(location.lon, -6.26876)
 
     def testCanUseOldTime(self):
+        """
+        Check you can include a time
+        """
         resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34146, 'lon':-6.26876, 'when': '2013-01-01 12:00:00'})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(Location.objects.all().count(), 1)  # now there is one
