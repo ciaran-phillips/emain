@@ -19,26 +19,26 @@ def index(request):
     return HttpResponse(template.render(context))
 
 def map_data(request):
-	# Dummy value for now
-	current_project = 1
-	response_data = {}
-	response_data['users'] = []
-	users = User.objects.filter(participating_in=current_project)
+    # Dummy value for now
+    current_project = 1
+    response_data = {}
+    response_data['users'] = []
+    users = User.objects.filter(participating_in=current_project)
 
-	for u in users:
-		user_dict = {}
-		user_dict['first_name'] = u.first_name
-		user_dict['last_name'] = u.last_name
-		user_dict['locations'] = []
-		user_locations = u.location_set.all()
-		for loc in user_locations:
-			user_loc = {}
-			user_loc['lat'] = loc.lat
-			user_loc['lon'] = loc.lon
-			user_loc['time'] = calendar.timegm(loc.when.utctimetuple())
-			user_dict['locations'].append(user_loc)
-		response_data['users'].append(user_dict)
-	return HttpResponse(json.dumps(response_data), content_type="application/json")
+    for u in users:
+        user_dict = {}
+        user_dict['first_name'] = u.first_name
+        user_dict['last_name'] = u.last_name
+        user_dict['locations'] = []
+        user_locations = u.location_set.all()
+        for loc in user_locations:
+            user_loc = {}
+            user_loc['lat'] = loc.lat
+            user_loc['lon'] = loc.lon
+            user_loc['time'] = calendar.timegm(loc.when.utctimetuple())
+            user_dict['locations'].append(user_loc)
+        response_data['users'].append(user_dict)
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def update_from_app(request):
@@ -51,7 +51,6 @@ def update_from_app(request):
             user = request.user
         else:
             if form.cleaned_data['userid'] is None:
-                userid = forms.IntegerField(required=False)
                 return HttpResponseBadRequest()
             user = User.objects.get(id=form.cleaned_data['userid'])
 
@@ -72,3 +71,18 @@ def register(request):
     user = authenticate(username=un, password=pw)
     login(request, user)
     return HttpResponse(content=str(user.id), status=200)
+
+
+def trace(request):
+    current_project = 1
+    response_data = {}
+    response_data['users'] = []
+    users = User.objects.filter(participating_in=current_project)
+
+    for u in users:
+        locations = user.location_set.order_by('when').values_list("lat", "lon", "when")
+        import pdb ; pdb.set_trace()
+
+    response_data = {}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+

@@ -10,6 +10,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from emain_map.models import *
 from datetime import date
+import json
+import time
 
 class SimpleTest(TestCase):
     def test_basic_addition(self):
@@ -75,5 +77,19 @@ class UpdateFromAppTestCase(TestCase):
         resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34146, 'lon':-6.26876, 'when': '2013-01-01 12:00:00', 'userid':self.user.id})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(Location.objects.all().count(), 1)  # now there is one
+
+    def testShowHistory(self):
+        #import pdb ; pdb.set_trace()
+        resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34146, 'lon':-6.26876})
+        time.sleep(1)
+        resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34159, 'lon':-6.26985})
+        self.assertEqual(Location.objects.all().count(), 2)
+
+        resp = self.client.get("/api/v1/trace/")
+        self.assertEqual(resp.status_code, 200)
+
+        json_data = json.loads(resp.content)
+
+
 
 
