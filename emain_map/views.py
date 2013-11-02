@@ -12,4 +12,9 @@ def index(request):
 	return HttpResponse(template.render(context))
 
 # TODO add POST for ping from the app
+def update_from_app(request):
+
+    # everything ok
+    return HttpResponse(status=200)
+
 # TODO display current status on the map
