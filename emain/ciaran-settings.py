@@ -108,7 +108,7 @@ ROOT_URLCONF = 'emain.urls'
 WSGI_APPLICATION = 'emain.wsgi.application'
 
 TEMPLATE_DIRS = (
-	"/home/ciaran/Documents/Dropbox/web_design/active/emain/templates"
+	"/home/ciaran/Documents/Dropbox/web_design/active/emain/emain/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
