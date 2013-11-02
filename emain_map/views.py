@@ -8,18 +8,15 @@ import json
 import calendar
 from models import Location, Project, Message
 from django.contrib.auth.models import User
-
-
+from django.contrib.auth import authenticate, login
 
 from .models import Location
 from .forms import LocationForm
 
 def index(request):
-	template = loader.get_template('index.html')
-	context = RequestContext(request, {
-		'message' : 'This is where our map will be'
-	})
-	return HttpResponse(template.render(context))
+    template = loader.get_template('index.html')
+    context = RequestContext(request, { 'message' : 'This is where our map will be' })
+    return HttpResponse(template.render(context))
 
 def map_data(request):
 	# Dummy value for now
@@ -61,3 +58,13 @@ def update_from_app(request):
         return HttpResponse(status=200)
 
 # TODO display current status on the map
+
+def register(request):
+    # TODO proper form
+    un = request.POST['username']
+    pw = request.POST['password']
+    user = User.objects.create_user(username=un, password=pw)
+    user.save()
+    user = authenticate(username=un, password=pw)
+    login(request, user)
+    return HttpResponse(content=str(user.id), status=200)
