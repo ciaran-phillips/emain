@@ -37,4 +37,9 @@ def map_data(request):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 	
 # TODO add POST for ping from the app
+def update_from_app(request):
+
+    # everything ok
+    return HttpResponse(status=200)
+
 # TODO display current status on the map
