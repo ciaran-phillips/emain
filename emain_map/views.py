@@ -4,6 +4,12 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.template import RequestContext, loader
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
+import json
+import calendar
+from models import Location, Project, Message
+from django.contrib.auth.models import User
+
+
 
 from .models import Location
 from .forms import LocationForm
@@ -15,7 +21,26 @@ def index(request):
 	})
 	return HttpResponse(template.render(context))
 
-# login required
+def map_data(request):
+	# Dummy value for now
+	current_project = 1
+	response_data = []
+	users = User.objects.filter(participating_in=current_project)
+
+	for u in users:
+		user_dict = {}
+		user_dict['first_name'] = u.first_name
+		user_dict['last_name'] = u.last_name
+		user_dict['locations'] = {}
+		user_locations = u.location_set.all()
+		for loc in user_locations:
+			user_dict['locations']['lat'] = loc.lat
+			user_dict['locations']['lon'] = loc.lon
+			user_dict['locations']['time'] = calendar.timegm(loc.when.utctimetuple())
+		response_data.append(user_dict)
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+# TODO add POST for ping from the app
 def update_from_app(request):
     if request.method == 'GET':
         return HttpResponseBadRequest()

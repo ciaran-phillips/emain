@@ -4,6 +4,8 @@ Models
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.contrib import admin
+
 class Project(models.Model):
     """
     One search project.
@@ -29,3 +31,8 @@ class Message(models.Model):
     from_user = models.ForeignKey(User, verbose_name="Who sent this message", null=True)
 
 
+
+admin.site.register(Project)
+
+admin.site.register(Location)
+admin.site.register(Message)
