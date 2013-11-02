@@ -34,3 +34,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# vim swap files
+.*.sw[po]
+
+# rope stuff
+.ropeproject
