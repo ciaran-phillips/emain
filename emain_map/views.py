@@ -10,3 +10,6 @@ def index(request):
 		'message' : 'This is where our map will be'
 	})
 	return HttpResponse(template.render(context))
+
+# TODO add POST for ping from the app
+# TODO display current status on the map
