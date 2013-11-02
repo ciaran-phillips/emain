@@ -63,3 +63,17 @@ class UpdateFromAppTestCase(TestCase):
         location = Location.objects.all()[0]
         # if off by serveral hours, check your timezone
         self.assertEqual(location.when.isoformat(), '2013-01-01T12:00:00+00:00')
+
+    def testNonLoggedInError(self):
+        self.client.logout()
+        resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34146, 'lon':-6.26876, 'when': '2013-01-01 12:00:00'})
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(Location.objects.all().count(), 0)  # now there is one
+
+    def testNonLoggedInOK(self):
+        self.client.logout()
+        resp = self.client.post("/api/v1/update_from_app/", {'lat': 53.34146, 'lon':-6.26876, 'when': '2013-01-01 12:00:00', 'userid':self.user.id})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(Location.objects.all().count(), 1)  # now there is one
+
+

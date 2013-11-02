@@ -30,9 +30,6 @@ class Message(models.Model):
     project = models.ForeignKey(Project, null=True)
     from_user = models.ForeignKey(User, verbose_name="Who sent this message", null=True)
 
-
-
 admin.site.register(Project)
-
 admin.site.register(Location)
 admin.site.register(Message)

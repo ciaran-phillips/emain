@@ -10,6 +10,7 @@ class LocationForm(forms.ModelForm):
         fields = ['lat', 'lon', 'when']
 
     when = forms.DateTimeField(required=False)
+    userid = forms.IntegerField(required=False)
 
     def clean_when(self):
         if self.cleaned_data['when'] is None:
