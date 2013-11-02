@@ -18,9 +18,7 @@
 				maxZoom: 18
 			}).addTo(map);
 			
-			$.ajax({
-				url: "/map_data/"
-				})
+			$.ajax({ url: "/map_data/" })
 				.done(function( data ) {
 					var users = data.users
 					var len = users.length;
