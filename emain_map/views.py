@@ -1,7 +1,8 @@
 # Create your views here.
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.template import RequestContext, loader
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
 import json
 import calendar
@@ -9,6 +10,9 @@ from models import Location, Project, Message
 from django.contrib.auth.models import User
 
 
+
+from .models import Location
+from .forms import LocationForm
 
 def index(request):
 	template = loader.get_template('index.html')
@@ -38,11 +42,20 @@ def map_data(request):
 			user_dict['locations'].append(user_loc)
 		response_data['users'].append(user_dict)
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
-	
+
 # TODO add POST for ping from the app
 def update_from_app(request):
-
-    # everything ok
-    return HttpResponse(status=200)
+    if request.method == 'GET':
+        return HttpResponseBadRequest()
+    form = LocationForm(request.POST)
+    if not form.is_valid():
+        print form.errors
+        return HttpResponseBadRequest()
+    else:
+        location = form.save(commit=False)
+        location.user = request.user
+        location.save()
+        # everything ok
+        return HttpResponse(status=200)
 
 # TODO display current status on the map
