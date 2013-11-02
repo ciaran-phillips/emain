@@ -18,35 +18,68 @@
 				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 				maxZoom: 18
 			}).addTo(map);
+			selected_user = "";
 			
-			$.ajax({
-				url: "/map_data/"
-				})
-				.done(function( data ) {
-					var users = data.users
-					var len = users.length;
-					var user_list = "";
-					for (var i = 0; i < len; i++) {
-						var len_user_locs = users[i].locations.length;
-						for (var c = 0; c < len_user_locs; c++) {
-							var lat = users[i].locations[c].lat;
-							var lon = users[i].locations[c].lon;
-							var marker = L.marker([lat, lon]).addTo(map);
-							var popup_text = "Searcher: " + users[i].first_name + " " + users[i].last_name;
-							popup_text += "<br /> Time: " + users[i].locations[c].time;
-							marker.bindPopup(popup_text);
+			var marker_array = [];
+			
+			function clear_markers() {
+				var len_arr = marker_array.length;
+				for (var y = 0; y < len_arr; y++) {
+					map.removeLayer(marker_array[y])
+				}
+			}
+			function draw_map() {
+					$.ajax({
+						url: "/map_data/" + selected_user
+					})
+					.done(function( data ) {
+						clear_markers();
+						var users = data.users
+						var len = users.length;
+						var user_list = "";
+						for (var i = 0; i < len; i++) {
+							var len_user_locs = users[i].locations.length;
+							for (var c = 0; c < len_user_locs; c++) {
+								var lat = users[i].locations[c].lat;
+								var lon = users[i].locations[c].lon;
+								var marker = L.marker([lat, lon]).addTo(map);
+								var popup_text = "Searcher: " + users[i].first_name + " " + users[i].last_name;
+								popup_text += "<br /> Time: " + users[i].locations[c].time;
+								marker.bindPopup(popup_text);
+								marker_array.push(marker);
+							}
+							 user_list += "<li class='list-item' data-user='"+users[i].id+"'>";
+							 user_list += users[i].first_name + " " + users[i].last_name + "</li>";
 						}
-						 user_list += "<li data-user='"+i+"'>";
-						 user_list += users[i].first_name + " " + users[i].last_name + "</li>";
-						
-					}
-					$("#user_list").html(user_list);
-				});
+						if (selected_user == "") {
+							$("#user_list").html(user_list);
+						}
+						$(".list-item").click(function() {
+							var userid = $(this).data("user");
+							selected_user = userid;
+							
+							draw_map();
+						});
+					});
+				}
+				
+				draw_map();
+				
+				
+			
 			});
 	</script>
+	
+	
 	<style>
 		#map { height: 600px; }
-	
+		.row {
+			z-index:0;
+		}
+		#user_list {
+			position:relative;
+			z-index:100;
+		}
 	</style>
 	</head>
 

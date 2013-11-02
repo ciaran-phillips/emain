@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'emain_map.views.index', name='index'),
     url(r'^map_data/$', 'emain_map.views.map_data', name='map'),
+    url(r'^map_data/(?P<userid>\d{1})/$', 'emain_map.views.map_data', name='map'),
     url(r'^', include('emain_map.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
