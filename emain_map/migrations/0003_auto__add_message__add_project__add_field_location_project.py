@@ -11,17 +11,18 @@ class Migration(SchemaMigration):
         # Adding model 'Message'
         db.create_table(u'emain_map_message', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('when', self.gf('django.db.models.fields.DateTimeField')()),
-            ('text', self.gf('django.db.models.fields.TextField')()),
-            ('from_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('when', self.gf('django.db.models.fields.DateTimeField')(null=True)),
+            ('text', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['emain_map.Project'], null=True)),
+            ('from_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
         ))
         db.send_create_signal(u'emain_map', ['Message'])
 
         # Adding model 'Project'
         db.create_table(u'emain_map_project', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('description', self.gf('django.db.models.fields.TextField')()),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(null=True)),
         ))
         db.send_create_signal(u'emain_map', ['Project'])
 
@@ -45,7 +46,7 @@ class Migration(SchemaMigration):
 
         # Adding field 'Location.project'
         db.add_column(u'emain_map_location', 'project',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['emain_map.Project']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['emain_map.Project'], null=True, blank=True),
                       keep_default=False)
 
 
@@ -108,24 +109,25 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lat': ('django.db.models.fields.FloatField', [], {}),
             'lon': ('django.db.models.fields.FloatField', [], {}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['emain_map.Project']"}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': u"orm['emain_map.Project']", 'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
             'when': ('django.db.models.fields.DateTimeField', [], {})
         },
         u'emain_map.message': {
             'Meta': {'object_name': 'Message'},
-            'from_user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
+            'from_user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'text': ('django.db.models.fields.TextField', [], {}),
-            'when': ('django.db.models.fields.DateTimeField', [], {})
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['emain_map.Project']", 'null': 'True'}),
+            'text': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'when': ('django.db.models.fields.DateTimeField', [], {'null': 'True'})
         },
         u'emain_map.project': {
             'Meta': {'object_name': 'Project'},
-            'commanders': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'commanding'", 'symmetrical': 'False', 'to': u"orm['auth.User']"}),
-            'description': ('django.db.models.fields.TextField', [], {}),
+            'commanders': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'commanding'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'description': ('django.db.models.fields.TextField', [], {'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'volunteers': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'participating_in'", 'symmetrical': 'False', 'to': u"orm['auth.User']"})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
+            'volunteers': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'participating_in'", 'null': 'True', 'to': u"orm['auth.User']"})
         }
     }
 
