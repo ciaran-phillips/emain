@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^map_data/$', 'emain_map.views.map_data', name='map'),
     url(r'^map_data/(?P<userid>\d{1})/$', 'emain_map.views.map_data', name='map'),
     url(r'^', include('emain_map.urls')),
+    url(r'^api_testing/', include('api_testing.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
