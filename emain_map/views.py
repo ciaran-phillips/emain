@@ -49,6 +49,7 @@ def map_data(request, userid = None):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+
 def update_from_app(request):
     form = LocationForm(request.POST or request.GET or {})
     if not form.is_valid():
@@ -59,7 +60,6 @@ def update_from_app(request):
             user = request.user
         else:
             if form.cleaned_data['userid'] is None:
-                userid = forms.IntegerField(required=False)
                 return HttpResponseBadRequest()
             user = User.objects.get(id=form.cleaned_data['userid'])
 
@@ -80,3 +80,18 @@ def register(request):
     user = authenticate(username=un, password=pw)
     login(request, user)
     return HttpResponse(content=str(user.id), status=200)
+
+
+def trace(request):
+    current_project = 1
+    response_data = {}
+    response_data['users'] = []
+    users = User.objects.filter(participating_in=current_project)
+
+    for u in users:
+        locations = user.location_set.order_by('when').values_list("lat", "lon", "when")
+        import pdb ; pdb.set_trace()
+
+    response_data = {}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
