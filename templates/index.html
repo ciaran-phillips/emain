@@ -37,6 +37,8 @@
 						var users = data.users
 						var len = users.length;
 						var user_list = "";
+						user_list += "<li class='list-item' data-user=''>All</li>";
+						var user_info = "";
 						for (var i = 0; i < len; i++) {
 							var len_user_locs = users[i].locations.length;
 							for (var c = 0; c < len_user_locs; c++) {
@@ -50,6 +52,11 @@
 							}
 							 user_list += "<li class='list-item' data-user='"+users[i].id+"'>";
 							 user_list += users[i].first_name + " " + users[i].last_name + "</li>";
+							 if (users[i].id == selected_user) {
+								 user_info += "<strong>Firstname: </strong> " + users[i].first_name;
+								 user_info += "<br /><strong>Lastname: </strong> " + users[i].last_name;
+								 $("#userinfo").html(user_info);
+							}
 						}
 						if (selected_user == "") {
 							$("#user_list").html(user_list);
@@ -57,7 +64,8 @@
 						$(".list-item").click(function() {
 							var userid = $(this).data("user");
 							selected_user = userid;
-							
+							$(".list-item").removeClass("active");
+							$(this).addClass("active");
 							draw_map();
 						});
 					});
@@ -76,9 +84,44 @@
 		.row {
 			z-index:0;
 		}
-		#user_list {
+		ul {
 			position:relative;
 			z-index:100;
+			padding-left:0;
+		}
+		ul li {
+			cursor:pointer;
+			color:#6699cc;
+			list-style-type:none;
+			padding:10px 0px 10px 10px;
+			border-bottom:1px solid #ccc;
+		}
+		ul li:hover, ul li.active {
+			background:#ddeeff;
+		}
+		body {
+			background:url("http://pattern4u.tk/wp-content/uploads/2013/07/c0857_Pattern_dotted_7006341301_36cb0010e3.jpg");
+		}
+		.heading {
+				background:linear-gradient(#f9f9f9, #f4f4f4);
+				padding:2px 5px;
+				text-align:center;
+				border-bottom:1px solid #ccc;
+		}
+		h2 {
+			font-size:1.5em;
+		}
+		
+		.left-col, #right-col {
+			border:1px solid #ccc;
+			margin-top:20px;
+			background:white;
+			border-radius:6px;
+		}
+		.title {
+			margin-top:10px;
+			border:1px solid #ccc;
+			border-radius:4px;
 		}
 	</style>
 	</head>
@@ -86,20 +129,52 @@
 	<body>
 		<div class="container">
 		<div class="row">
-			<div class="col-md-3">
-				<h1>Active Searchers</h1>
-				<ul id="user_list">
-					
-				</ul>
-			</div>
-			<div class="col-md-12">
-				<div class="row">
-				<h1>E-MAIN</h1>
-				<div id="map">
-				
+			<div class="col-md-6 col-md-offset-3">
+				<div class="heading title">
+					<h2>Incident: Million Duck Emergency</h2>
 				</div>
-		 
-		 </div>
+			</div>
+		</div>
+		<div class="row">
+			<div  style="float:left;" class="col-md-3">
+				<div class="left-col">
+					<div class="heading">
+						<h2>Active Searchers</h2>
+					</div>
+					<ul id="user_list">
+						
+					</ul>
+				</div>
+				<div class="left-col">
+					<div class="heading">
+						<h2>Timespan</h2>
+					</div>
+					<ul>
+						<li>Last 30 mins</li>
+						<li>Last Hour</li>
+						<li>Last Two Hours</li>
+					</ul>
+				</div>
+				<div class="left-col">
+					<div class="heading">
+						<h2>Searcher Info</h2>
+					</div>
+					<div id="userinfo">
+						
+					</div>
+				</div>
+			</div>
+			
+			
+			<div style="float:right;" class="col-md-9">
+				<div id="right-col">
+					<div class="heading">
+					<h2>E-Main</h2>
+					</div>
+					<div id="map">
+					
+					</div>
+				</div>
 			</div>
 			
 			
