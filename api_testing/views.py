@@ -10,4 +10,5 @@ import calendar
 
 
 def register_user(request):
-	return HttpResponse("hello")
+    template = loader.get_template('api_testing/registration.html')
+    return HttpResponse("hello")
