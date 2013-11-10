@@ -1,0 +1,63 @@
+{% extends "api_testing/base.html" %}
+
+{% block content %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		map = L.map('map').setView([49.342148, -6.268659], 13);
+		L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+			maxZoom: 18
+		}).addTo(map);
+		
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(show_pos);
+		
+	}
+	else {
+		alert("Location not available");
+	}
+	
+		$("#submit_location").click(function () {
+			 navigator.geolocation.getCurrentPosition(submit_position);
+			
+			});
+	});
+	
+	function show_pos(position) {
+		var lat = position.coords.latitude;
+		var lon = position.coords.longitude;
+		var marker = L.marker([lat, lon]).addTo(map);
+		map.setView([lat, lon],13);
+	}
+	
+	function submit_position(pos) {
+		lat = pos.coords.latitude;
+		lon = pos.coords.longitude;
+		var data = {
+			'lat' : lat,
+			'lon' : lon,
+			'when' : '2013-01-01 00:00:00',
+			'userid' : 2,
+			}
+		$.ajax({
+			url: "/api/v1/update_from_app/",
+			data: data
+		})
+		.done(function(msg) {
+			alert(msg);
+			});
+	}
+
+</script>
+			<div class="heading">
+			<h2>E-Main</h2>
+			</div>
+			<div id="map">
+				
+			</div>
+			
+			<div id="bottom_menu">
+				<button id="submit_location">Submit Location</button>
+			</div>
+
+</div>
+{% endblock content %}

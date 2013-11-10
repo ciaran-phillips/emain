@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+	 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+	 <!--[if lte IE 8]>
+		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+	 <![endif]-->
+	 
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script> 
+	 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+	<meta name="viewport" content="width=device-width">
+	<style>
+		html, body {
+			height:100%;
+		}
+		#map {
+			height:100%;
+		}
+		.row {
+			z-index:0;
+		}
+		ul {
+			position:relative;
+			z-index:100;
+			padding-left:0;
+		}
+		ul li {
+			cursor:pointer;
+			color:#6699cc;
+			list-style-type:none;
+			padding:10px 0px 10px 10px;
+			border-bottom:1px solid #ccc;
+		}
+		ul li:hover, ul li.active {
+			background:#ddeeff;
+		}
+		body {
+			background:url("http://pattern4u.tk/wp-content/uploads/2013/07/c0857_Pattern_dotted_7006341301_36cb0010e3.jpg");
+		}
+		h2 {
+			font-size:1.5em;
+		}
+		
+		.left-col, #right-col {
+			border:1px solid #ccc;
+			margin-top:20px;
+			background:white;
+			border-radius:6px;
+		}
+		.title {
+			margin-top:10px;
+			border:1px solid #ccc;
+			border-radius:4px;
+		}
+		#wrapper {
+			width:100%;
+			background:white;
+			height:100%;
+		}
+		.heading {
+			margin-bottom:-60px;
+			position:relative;
+			z-index:1000;
+			opacity:0.8;
+			color:white;
+			height:60px;
+			background-color:#222222;
+			padding:2px 5px;
+			text-align:center;
+			border-bottom:1px solid #ccc;
+		}
+		button {
+			padding:5px 10px;
+			border:0;
+			border-radius:0px;
+			color:white;
+			height:40px;
+			background:transparent;
+			border-right:2px solid #444;
+			border-left:2px solid #444;
+			
+		}
+		#bottom_menu {
+			background:#222;
+			text-align:center;
+			opacity:0.8;
+			margin-top:-60px;
+			height:60px;
+		}
+		button:hover {
+			background:#333;
+			opacity:0.8;
+		}
+	</style>
+	</head>
+
+	<body>
+		<div id="wrapper">
+				{% block content %}
+			
+				{% endblock content %}
+	 
+		</div>
+	</body>
+</html>
+

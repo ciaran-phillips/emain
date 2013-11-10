@@ -16,3 +16,9 @@ def register_user(request):
     })
     template = loader.get_template('api_testing/registration.html')
     return HttpResponse(template.render(context))
+
+
+def user_map(request):
+	template = loader.get_template('api_testing/user_map.html')
+	context = RequestContext(request, {})
+	return HttpResponse(template.render(context))
